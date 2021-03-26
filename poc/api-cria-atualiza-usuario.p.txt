@@ -1,0 +1,92 @@
+{METHOD/dbotterr.i}
+{fnbo/bofn017.i tt-usuar_mestre}
+
+DEFINE VARIABLE h-bofn017 AS HANDLE      NO-UNDO.
+
+/*** este ponto pode ser descomentado para qdo o programa
+for chamado por outro
+DEFINE INPUT PARAM p-usuario AS CHARACTER    NO-UNDO.
+DEFINE INPUT PARAM p-nome    AS CHARACTER    NO-UNDO.
+**/
+
+DEFINE VARIABLE p-usuario AS CHARACTER    NO-UNDO.
+DEFINE VARIABLE p-nome    AS CHARACTER    NO-UNDO.
+DEFINE VARIABLE P-acao    AS CHARACTER    NO-UNDO.
+DEFINE VARIABLE i-id      AS INTEGER      NO-UNDO.
+DEFINE VARIABLE i         AS INTEGER      NO-UNDO.
+DEFINE VARIABLE p-grupo   AS CHARACTER EXTENT 3 INITIAL ['ARA','APD','BOA'] NO-UNDO.
+
+ASSIGN p-usuario = "teste02"
+       p-nome    = "Teste de Usuario"
+       p-acao    = "UPDATE".
+
+EMPTY TEMP-TABLE tt-usuar_mestre.
+FIND FIRST usuar_mestre NO-LOCK
+     WHERE usuar_mestre.cod_usuario = p-usuario NO-ERROR.
+
+
+IF p-acao = "CREATE" THEN
+DO:
+
+    FOR LAST usuar_mestre BREAK BY usuar_mestre.idi_dtsul.
+        ASSIGN i-id = usuar_mestre.idi_dtsul + 1.
+    END.
+
+    CREATE tt-usuar_mestre.
+    BUFFER-COPY usuar_mestre TO tt-usuar_mestre.
+    ASSIGN tt-usuar_mestre.cod_usuario          = p-usuario
+           tt-usuar_mestre.nom_usuario          = p-nome
+           tt-usuar_mestre.idi_dtsul            = i-id
+           tt-usuar_mestre.dat_inic_valid       = TODAY
+           tt-usuar_mestre.dat_fim_valid        = TODAY + 30
+           tt-usuar_mestre.dat_valid_senha      = 10/08/2018
+           tt-usuar_mestre.num_dias_valid_senha = 90.
+
+    IF NOT VALID-HANDLE(h-bofn017) THEN
+        RUN fnbo/bofn017.p PERSISTENT SET h-bofn017.
+
+
+    RUN emptyRowErrors IN h-bofn017.
+    RUN openQueryStatic IN h-bofn017 (INPUT "Main":U) NO-ERROR.
+    RUN setRecord IN h-bofn017(INPUT TABLE tt-usuar_mestre).
+    RUN createRecord IN h-bofn017.
+    RUN getRowErrors IN h-bofn017(OUTPUT TABLE RowErrors).
+
+END.
+
+FOR EACH RowErrors:
+    MESSAGE RowErrors.errorDescription
+        VIEW-AS ALERT-BOX INFO BUTTONS OK.
+END.
+
+IF NOT CAN-FIND(FIRST RowErrors NO-LOCK) THEN DO:
+
+    IF NOT CAN-FIND(FIRST segur_empres_usuar WHERE segur_empres_usuar.cod_usuario = p-usuario)
+    THEN DO:
+        CREATE segur_empres_usuar.
+        ASSIGN segur_empres_usuar.cod_usuario = p-usuario
+               segur_empres_usuar.cod_empresa = "001".
+    END.
+
+    DO i = 1 TO 3:
+
+        IF NOT CAN-FIND(FIRST usuar_grp_usuar
+                        WHERE usuar_grp_usuar.cod_grp_usuar = p-grupo[i]
+                        AND usuar_grp_usuar.cod_usuario     =  p-usuario) THEN
+        DO:
+             CREATE usuar_grp_usuar.
+             ASSIGN usuar_grp_usuar.cod_grp_usuar =  p-grupo[i]
+                    usuar_grp_usuar.cod_usuario   =  p-usuario.
+        END.
+
+
+    END.
+
+    MESSAGE "Operação executada com sucesso" view-as alert-box.
+
+END.
+
+
+FOR EACH usuar_grp_usuar WHERE usuar_grp_usuar.cod_usuario = "teste02" no-LOCK:
+    disp usuar_grp_usuar with width 333 1 col.
+end.

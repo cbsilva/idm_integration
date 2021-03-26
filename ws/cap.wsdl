@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="cap" targetNamespace="urn:cap" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:prodata="urn:schemas-progress-com:xml-prodata:0001" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:cap" xmlns:S2="urn:cap:cap" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:S1="urn:soap-fault:details" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:documentation>Author=4MAKE, EncodingType=RPC_LITERAL, Proxygen_Product=Progress Version 11.6</wsdl:documentation>
+  <wsdl:types>
+<schema elementFormDefault="unqualified" targetNamespace="urn:soap-fault:details" xmlns="http://www.w3.org/2001/XMLSchema"><complexType name="FaultDetail"><sequence><element name="errorMessage" type="xsd:string"/><element name="requestID" type="xsd:string"/></sequence></complexType></schema>
+<schema elementFormDefault="unqualified" targetNamespace="urn:cap:cap" xmlns="http://www.w3.org/2001/XMLSchema"><complexType name="fndUsuariosParam"><sequence><element maxOccurs="unbounded" minOccurs="0" name="ttUsuarios"><complexType><sequence><element name="cod-usuario" nillable="true" type="xsd:string"/><element name="nome-usuario" nillable="true" type="xsd:string"/><element name="cod-senha" nillable="true" type="xsd:string"/><element name="ind-tip-usuar" nillable="true" type="xsd:string"/><element name="ind-tip-acesso" nillable="true" type="xsd:string"/><element name="dat-inic-valid" nillable="true" type="xsd:date"/><element name="dat-fim-valid" nillable="true" type="xsd:date"/><element name="dat-valid-senha" nillable="true" type="xsd:date"/><element name="num-dias-valid-senha" nillable="true" type="xsd:int"/></sequence></complexType></element></sequence></complexType><complexType name="fndGruposParam"><sequence><element maxOccurs="unbounded" minOccurs="0" name="ttGruposUsuarios"><complexType><sequence><element name="cod-usuario" nillable="true" type="xsd:string"/><element name="cod-grupo" nillable="true" type="xsd:string"/><element name="acao-registro" nillable="true" type="xsd:string"/></sequence></complexType></element></sequence></complexType></schema>
+  </wsdl:types>
+  <wsdl:message name="cap_essec008">
+    <wsdl:part name="fndUsuarios" type="S2:fndUsuariosParam"/>
+    <wsdl:part name="fndGrupos" type="S2:fndGruposParam"/>
+  </wsdl:message>
+  <wsdl:message name="FaultDetailMessage">
+    <wsdl:part name="FaultDetail" type="S1:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="cap_essec008Response">
+    <wsdl:part name="retorno" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:portType name="capObj">
+    <wsdl:operation name="essec008" parameterOrder="fndUsuarios fndGrupos retorno">
+      <wsdl:input message="tns:cap_essec008"/>
+      <wsdl:output message="tns:cap_essec008Response"/>
+      <wsdl:fault name="capFault" message="tns:FaultDetailMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="capObj" type="tns:capObj">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="essec008">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input>
+        <soap:body use="literal" namespace="urn:cap:cap"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="urn:cap:cap"/>
+      </wsdl:output>
+      <wsdl:fault name="capFault">
+        <soap:fault name="capFault" use="literal" namespace="http://localhost:8780/wsa/wsa1"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="capService">
+    <wsdl:port name="capObj" binding="tns:capObj">
+<wsdl:documentation></wsdl:documentation>
+      <soap:address location="http://localhost:8780/wsa/wsa1"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
