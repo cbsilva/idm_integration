@@ -1,0 +1,92 @@
+ADD TABLE "es-param-integr"
+  AREA "Dados"
+  DESCRIPTION "Tabela de Parƒmetros de Integra‡Æo TOTVS x IDM"
+  DUMP-NAME "es-param-integr"
+
+ADD FIELD "cod-usuario" OF "es-param-integr" AS character 
+  DESCRIPTION "Nome do usu rio de integra‡Æo"
+  FORMAT "x(20)"
+  INITIAL ""
+  LABEL "Usuario"
+  POSITION 2
+  MAX-WIDTH 40
+  COLUMN-LABEL "Usuario"
+  HELP "Nome do usu rio"
+  ORDER 10
+
+ADD FIELD "nom-dir-spool" OF "es-param-integr" AS character 
+  DESCRIPTION "Nome do diret¢rio spool"
+  FORMAT "x(250)"
+  INITIAL ""
+  LABEL "Dir Spool"
+  POSITION 4
+  MAX-WIDTH 500
+  COLUMN-LABEL "Dir Spool"
+  HELP "Nome do diret¢rio spool"
+  ORDER 30
+
+ADD FIELD "cod-servid-exec" OF "es-param-integr" AS character 
+  FORMAT "x(200)"
+  INITIAL ""
+  LABEL "Serv Exec"
+  POSITION 6
+  MAX-WIDTH 400
+  COLUMN-LABEL "Serv Exec"
+  ORDER 50
+
+ADD FIELD "cod-dialet" OF "es-param-integr" AS character 
+  FORMAT "x(2)"
+  INITIAL ""
+  LABEL "Dialeto"
+  POSITION 8
+  MAX-WIDTH 4
+  COLUMN-LABEL "Dialeto"
+  ORDER 70
+
+ADD FIELD "ep-codigo" OF "es-param-integr" AS character 
+  FORMAT "x(5)"
+  INITIAL ""
+  LABEL "Empresa"
+  POSITION 9
+  MAX-WIDTH 10
+  COLUMN-LABEL "Empresa"
+  ORDER 80
+
+ADD FIELD "char_1" OF "es-param-integr" AS character 
+  FORMAT "x(200)"
+  INITIAL ""
+  LABEL "Campo Livre"
+  POSITION 10
+  MAX-WIDTH 400
+  COLUMN-LABEL "Campo Livre"
+  ORDER 90
+
+ADD FIELD "log_1" OF "es-param-integr" AS logical 
+  FORMAT "yes/no"
+  INITIAL "no"
+  LABEL "Logical"
+  POSITION 11
+  MAX-WIDTH 1
+  COLUMN-LABEL "Logical"
+  ORDER 100
+
+ADD FIELD "log_2" OF "es-param-integr" AS logical 
+  FORMAT "yes/no"
+  INITIAL "no"
+  LABEL "Logical 2"
+  POSITION 12
+  MAX-WIDTH 1
+  COLUMN-LABEL "Logical 2"
+  ORDER 110
+
+ADD INDEX "idx-param" ON "es-param-integr" 
+  AREA "Indices"
+  UNIQUE
+  PRIMARY
+  INDEX-FIELD "ep-codigo" ASCENDING 
+
+.
+PSC
+cpstream=ibm850
+.
+0000001889
