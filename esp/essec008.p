@@ -61,17 +61,28 @@ DEFINE BUFFER b-usuar_mestre FOR usuar_mestre.
 
 /* limpa tabelas */
 
-EMPTY TEMP-TABLE ttUsuarios.
 EMPTY TEMP-TABLE tt-usuar_mestre.
+
+IF CAN-FIND(FIRST ttUsuarios NO-LOCK) THEN
+DO:
+    ASSIGN retorno ="17006 - Erro ao criar usuario, parametros inv†lidos".
+
+    LOG-MANAGER:WRITE-MESSAGE("usuario nao sera criado a tabela esta vazia") NO-ERROR.
+END.
+
 
 FOR FIRST ttUsuarios NO-LOCK:
 
+
+    
+    LOG-MANAGER:WRITE-MESSAGE("INICIO DO PROGRAMA DE INTEGRACAO") NO-ERROR.
+    
     /* descomentar este bloco depois de criar a tela de parametros
     FIND FIRST param-integr NO-LOCK NO-ERROR.
     IF NOT AVAIL param-integr THEN
     DO:
         ASSIGN retorno = "Usu†rio de integraá∆o n∆o parametrizado no programa ESSEC008A".
-        LEAVE.
+        RETURN.
     END.
     */
 
@@ -92,6 +103,7 @@ FOR FIRST ttUsuarios NO-LOCK:
                 ASSIGN retorno = retorno + CHR(13) + STRING(tt-erros.cod-erro) + " - " + tt-erros.desc-erro.
         END.
         
+        RETURN.        
     END.
 
     
@@ -109,13 +121,18 @@ FOR FIRST ttUsuarios NO-LOCK:
         CREATE tt-usuar_mestre.
         ASSIGN tt-usuar_mestre.cod_usuario          = ttUsuarios.cod-usuario
                tt-usuar_mestre.nom_usuario          = ttUsuarios.nome-usuario
-               tt-usuar_mestre.ind_tip_usuar        = "1" /*--comun--*/
+               tt-usuar_mestre.ind_tip_usuar        = "comum" /*--comun--*/
                tt-usuar_mestre.ind_tip_aces_usuar   = "1" /*--interno--*/
                tt-usuar_mestre.dat_inic_valid       = TODAY
                tt-usuar_mestre.dat_fim_valid        = TODAY + 30
                tt-usuar_mestre.dat_valid_senha      = TODAY
                tt-usuar_mestre.num_dias_valid_senha = 90
-               tt-usuar_mestre.idi_dtsul            = i-id.
+               tt-usuar_mestre.idi_dtsul            = i-id
+               tt-usuar_mestre.nom_dir_spool        = "c:\temp\"
+               tt-usuar_mestre.nom_subdir_spool     = ttUsuarios.cod-usuario
+               tt-usuar_mestre.cod_servid_exec      = "002"
+               tt-usuar_mestre.nom_subdir_spool_rpw = ttUsuarios.cod-usuario
+               tt-usuar_mestre.cod_e_mail_local     = "empresa@bosch.com.br".
 
 
         IF NOT VALID-HANDLE(h-bofn017) THEN
