@@ -1,0 +1,19 @@
+{fnbo/bofn017.i ttUsuarMestre}
+
+DEFINE VARIABLE hBofn017 AS HANDLE    NO-UNDO.
+DEFINE VARIABLE pUsuario AS CHARACTER INITIAL "adm"  NO-UNDO.
+
+RUN fnbo/bofn017.p PERSISTENT SET hbofn017.
+
+RUN setConstraintCodUsuario IN hBofn017(INPUT pUsuario).
+MESSAGE RETURN-VALUE
+    VIEW-AS ALERT-BOX INFO BUTTONS OK.
+RUN openQueryStatic IN hBofn017(INPUT 'CodUsuario').
+MESSAGE RETURN-VALUE
+    VIEW-AS ALERT-BOX INFO BUTTONS OK.
+RUN getRecord IN hBofn017(OUTPUT TABLE ttUsuarMestre).
+
+FIND FIRST ttUsuarMestre NO-LOCK NO-ERROR.
+IF AVAIL ttUsuarMestre THEN
+MESSAGE ttUsuarMestre.nom_usuario
+    VIEW-AS ALERT-BOX INFO BUTTONS OK.
