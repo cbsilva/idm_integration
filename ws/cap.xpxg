@@ -84,6 +84,11 @@
     <IsTTResultSet>false</IsTTResultSet>
     <WriteDatasetBeforeImage>false</WriteDatasetBeforeImage>
     <Procedure isPersistent="false" useFullName="false">
+      <Name>checkCreateAccount</Name>
+      <ProcPath>esp\</ProcPath>
+      <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
+    </Procedure>
+    <Procedure isPersistent="false" useFullName="false">
       <Name>getUser</Name>
       <ProcPath>esp\</ProcPath>
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
