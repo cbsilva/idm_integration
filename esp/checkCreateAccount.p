@@ -14,58 +14,35 @@
 {esp/essec008a.i ttUser "'userData'"}
 {esp/essec008b.i ttGroups "'Roles'"}
 
-DEFINE TEMP-TABLE ttRetorno NO-UNDO SERIALIZE-NAME "checkCreateAccount"
-    FIELD logUser AS LOGICAL XML-NODE-TYPE "ELEMENT".
+DEFINE TEMP-TABLE ttRetorno NO-UNDO 
+    NAMESPACE-URI "webservice.idm.bosch.com:types"
+    FIELD logUser AS LOGICAL XML-NODE-NAME "checkCreateAccountResponse"
+    //XML-NODE-TYPE "TEXT"
+    .
 
 
 
 /*-- dataset definitions --*/
 DEFINE DATASET dsUser 
+    NAMESPACE-URI "webservice.idm.bosch.com:types" 
     XML-NODE-NAME "checkCreateAccount"
     XML-NODE-TYPE "HIDDEN"
-    SERIALIZE-HIDDEN FOR ttUser.
+    FOR ttUser.
 
 DEFINE DATASET dsRetorno
-    XML-NODE-TYPE "HIDDEN"
-    SERIALIZE-HIDDEN FOR ttRetorno.                                
+    NAMESPACE-URI "webservice.idm.bosch.com:types"
+    XML-NODE-NAME "checkCreateAccountResponse"
+    SERIALIZE-HIDDEN
+    FOR ttRetorno.                                
 
 
 /*-- variable definitions --*/
 DEFINE VARIABLE lRetorno AS LOGICAL INITIAL FALSE NO-UNDO.
 
 
-/*
-DEFINE TEMP-TABLE ttSenhaUsuario NO-UNDO SERIALIZE-NAME "item"
-    FIELD tipo  AS CHARACTER SERIALIZE-NAME "key"
-    FIELD valor AS CHARACTER SERIALIZE-NAME "value".
-
-
-DEFINE DATASET userData XML-NODE-TYPE 'hidden'
-     FOR ttSenhaUsuario.
-
- //definicao de parametros de entrada
- comentado para teste
-DEFINE INPUT  PARAMETER accountId  AS CHARACTER NO-UNDO.  
-DEFINE INPUT  PARAMETER firstname  AS CHARACTER NO-UNDO.  
-DEFINE INPUT  PARAMETER lastname   AS CHARACTER NO-UNDO.        
-DEFINE INPUT  PARAMETER email      AS CHARACTER NO-UNDO.  
-DEFINE INPUT  PARAMETER department AS CHARACTER NO-UNDO.
-DEFINE INPUT  PARAMETER DATASET FOR userData.
-
-*/
-
-
-
-
-/* DEFINE DATASET dsRetorno XML-NODE-NAME 'checkCreateAccountResponse'  */
-/*     SERIALIZE-HIDDEN FOR ttRetorno.                                  */
-
-
 DEFINE INPUT  PARAMETER DATASET FOR dsUser.
 DEFINE OUTPUT PARAMETER DATASET FOR dsRetorno.
-//DEFINE OUTPUT PARAMETER pResponse AS LOGICAL 
-//    COLUMN-LABEL "checkCreateAccountResponse"
-//    NO-UNDO.
+
 
 FIND FIRST ttUser NO-LOCK NO-ERROR.
 IF NOT AVAIL ttUSer THEN
@@ -82,7 +59,8 @@ DO:
     ASSIGN ttRetorno.logUser = lRetorno.
 END.
 
-{esp/essec008.i} /*-- procedures --*/  
+/*-- procedures --*/  
+{esp/essec008.i} 
 
 
 

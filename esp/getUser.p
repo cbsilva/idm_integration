@@ -36,7 +36,17 @@ DEFINE DATASET dsUser XML-NODE-NAME 'getUserResponse'
     FOR ttUser, ttGroups
             DATA-RELATION drUserData FOR ttUser, ttGroups 
                 RELATION-FIELDS(ttUser.accountId, ttGroups.accountId).
-  /*                  
+
+
+DATASET dsUser:ADD-RELATION (
+    BUFFER ttUser:HANDLE, BUFFER ttGroups:HANDLE,
+
+
+
+
+
+                 
+       /*
 DEFINE DATASET dsGroupUser
     NAMESPACE-URI "webservice.idm.bosch.com:types" 
     XML-NODE-NAME 'Roles' FOR ttGroups.*/
