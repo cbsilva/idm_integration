@@ -10,7 +10,7 @@
       <VersionNumber>1</VersionNumber>
       <Package />
       <Service>cap</Service>
-      <WorkDir>D:\totvs\datasul\dts12\ERP\custom\bosch\ws\</WorkDir>
+      <WorkDir>D:\totvs\datasul\dts12\ERP\custom\bosch\ws\log\</WorkDir>
       <VerboseLogging>true</VerboseLogging>
       <LeaveProxyFiles>true</LeaveProxyFiles>
       <SaveBeforeGen>true</SaveBeforeGen>
@@ -53,7 +53,7 @@
       <CurrentEncoding>2</CurrentEncoding>
       <SoapEndpointURL>http://localhost:8780/wsa/wsa1</SoapEndpointURL>
       <WebServiceNamespace userDefined="true">urn:cap</WebServiceNamespace>
-      <SoapAction appendToSoapAction="false" />
+      <SoapAction appendToSoapAction="true" />
       <ConnectReturnString userDefined="false" />
       <TestWSDL bGen="true" RPCEncoded="false" RPCLiteral="true" DocLiteral="false" />
       <ESBEncoding>3</ESBEncoding>
@@ -84,9 +84,10 @@
     <IsTTResultSet>false</IsTTResultSet>
     <WriteDatasetBeforeImage>false</WriteDatasetBeforeImage>
     <Procedure isPersistent="false" useFullName="false">
-      <Name>essec008</Name>
+      <Name>getUser</Name>
       <ProcPath>esp\</ProcPath>
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
+      <ProcExt>p</ProcExt>
     </Procedure>
   </AppObject>
 </WSAD>
