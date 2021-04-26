@@ -13,30 +13,30 @@
 
 {include/getUser.i}
 {include/userData.i}
-{include/userRoles.i}
+{include/userRoles.i "'Roles'" "'Role'"}
 
 /* global variable definitions */
 
 /* local variable definitions */
 DEFINE VARIABLE lRetOK AS LOGICAL     NO-UNDO.
 
-DEFINE TEMP-TABLE ttAttIDM NO-UNDO XML-NODE-NAME "GetUserAtribute"
+DEFINE TEMP-TABLE ttAttIDM NO-UNDO 
+    NAMESPACE-URI "webservice.idm.bosch.com:types"
+    XML-NODE-NAME "GetUserAtribute"
     FIELD id AS CHARACTER INITIAL "urn:webservice.idm.bosch.com:types" XML-NODE-TYPE "ELEMENT".
-
-
-DEFINE TEMP-TABLE ttRoles NO-UNDO SERIALIZE-NAME "Roles"
-    FIELD accountId AS CHARACTER SERIALIZE-HIDDEN.
-
 
 
 /* dataset definitions */
 DEFINE DATASET dsGetUser  
-    NAMESPACE-URI 'webservice.idm.bosch.com:types' SERIALIZE-HIDDEN
+    NAMESPACE-URI "webservice.idm.bosch.com:types"
+    SERIALIZE-HIDDEN
     FOR ttAttIDM, ttUser
     DATA-RELATION relUserId FOR ttAttIDM, ttUser RELATION-FIELDS(id, accountId) NESTED.
 
 
-DEFINE DATASET dsRetUser XML-NODE-NAME "UserData" SERIALIZE-HIDDEN FOR ttUserData, ttRoles, ttUserRoles,ttErrorMessage
+DEFINE DATASET dsRetUser 
+    NAMESPACE-URI "webservice.idm.bosch.com:types"
+    XML-NODE-NAME "UserData" SERIALIZE-HIDDEN FOR ttUserData, ttRoles, ttUserRoles,ttErrorMessage
     DATA-RELATION drRoles   FOR ttUserData, ttRoles   RELATION-FIELDS(accountId, accountId) NESTED
     DATA-RELATION UserRoles FOR ttRoles, ttUserRoles  RELATION-FIELDS(accountId, accountId) NESTED.
     

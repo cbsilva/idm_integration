@@ -3,6 +3,7 @@
  ***********************************************************/
 
 DEFINE TEMP-TABLE ttUser NO-UNDO
+    NAMESPACE-URI "webservice.idm.bosch.com:types"
     FIELD accountId  AS CHARACTER XML-NODE-TYPE "HIDDEN"
     INDEX idxUser IS PRIMARY accountId.
 
@@ -18,8 +19,6 @@ DEFINE TEMP-TABLE ttErrorMessage NO-UNDO
 
 DEFINE TEMP-TABLE tt-usuar_mestre NO-UNDO LIKE usuar_mestre
     FIELD r-rowid AS ROWID.
-
-
 
 
 DEFINE TEMP-TABLE tt-erros NO-UNDO

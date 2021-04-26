@@ -2,7 +2,9 @@
     TEMP-TABLES - WEBSERVICE INTEGRATION IDM X TOTVS
  ***********************************************************/
 
-DEFINE TEMP-TABLE ttUserData NO-UNDO XML-NODE-NAME "UserData"
+DEFINE TEMP-TABLE ttUserData NO-UNDO 
+    NAMESPACE-URI "webservice.idm.bosch.com:types"
+    XML-NODE-NAME "UserData"
     FIELD accountId  AS CHARACTER FORMAT "x(12)"
     FIELD firstName  AS CHARACTER FORMAT "x(50)"
     FIELD lastName   AS CHARACTER FORMAT "x(50)"

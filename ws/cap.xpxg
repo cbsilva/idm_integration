@@ -89,6 +89,11 @@
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
     </Procedure>
     <Procedure isPersistent="false" useFullName="false">
+      <Name>checkUpdateAccount</Name>
+      <ProcPath>esp\</ProcPath>
+      <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
+    </Procedure>
+    <Procedure isPersistent="false" useFullName="false">
       <Name>createAccount</Name>
       <ProcPath>esp\</ProcPath>
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
@@ -97,7 +102,6 @@
       <Name>getUser</Name>
       <ProcPath>esp\</ProcPath>
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
-      <ProcExt>p</ProcExt>
     </Procedure>
   </AppObject>
 </WSAD>

@@ -13,7 +13,7 @@
 
 {include/getUser.i}
 {include/userData.i}
-{include/userRoles.i}
+{include/userRoles.i "''" "''"}
 {include/ttResponse.i "'createAccountResponse'"}
 
 /* global variable definitions */
