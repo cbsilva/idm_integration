@@ -1,66 +1,98 @@
 /*------------------------------------------------------------------------
     File        : checkCreateAccount.p
-    Purpose     : Programa verifica se a conta do usuario pode ser 
-                  criada
-    Description : Manuten‡Æo de usu rios (SEC000AA)
+    Description : Programa para checar as informa‡äes do usuario
     Author(s)   : Cleberson Silva - 4Make
     Created     : 21/04/2021
     Notes       :
  ------------------------------------------------------------------------*/
+ 
+ /* ***************************  Definitions  ************************** */
+ 
+{include/i-prgvrs.i getUser 2.00.00.001}
 {METHOD/dbotterr.i}
-{include/i-prgvrs.i checkCreateAccount 2.00.00.001}
 
-/*-- temp-tables definitions --*/
-{esp/essec008a.i ttUser "'userData'"}
-{esp/essec008b.i ttGroups "'Roles'"}
+{include/getUser.i}
+{include/userData.i}
+{include/userRoles.i}
+{include/ttResponse.i "'checkCreateAccountResponse'"}
 
-DEFINE TEMP-TABLE ttRetorno NO-UNDO 
-    NAMESPACE-URI "webservice.idm.bosch.com:types"
-    FIELD logUser AS LOGICAL XML-NODE-NAME "checkCreateAccountResponse"
-    //XML-NODE-TYPE "TEXT"
-    .
+/* global variable definitions */
 
+/* local variable definitions */
+DEFINE VARIABLE lRetOK AS LOGICAL     NO-UNDO.
+DEFINE VARIABLE lRetorno AS LOGICAL INITIAL FALSE NO-UNDO.
 
 
 /*-- dataset definitions --*/
 DEFINE DATASET dsUser 
     NAMESPACE-URI "webservice.idm.bosch.com:types" 
     XML-NODE-NAME "checkCreateAccount"
-    XML-NODE-TYPE "HIDDEN"
-    FOR ttUser.
+    FOR ttUserData.
 
 DEFINE DATASET dsRetorno
     NAMESPACE-URI "webservice.idm.bosch.com:types"
     XML-NODE-NAME "checkCreateAccountResponse"
+    XML-NODE-TYPE "HIDDEN"
     SERIALIZE-HIDDEN
     FOR ttRetorno.                                
 
 
-/*-- variable definitions --*/
-DEFINE VARIABLE lRetorno AS LOGICAL INITIAL FALSE NO-UNDO.
-
-
+/* ***************************  Main Block  ************************** */
 DEFINE INPUT  PARAMETER DATASET FOR dsUser.
 DEFINE OUTPUT PARAMETER DATASET FOR dsRetorno.
 
 
-FIND FIRST ttUser NO-LOCK NO-ERROR.
-IF NOT AVAIL ttUSer THEN
-DO:
-    CREATE ttRetorno.
-    ASSIGN ttRetorno.logUser = FALSE.
-    //ASSIGN pResponse = FALSE.
-    RETURN "NOK":U.
-END.
-ELSE
-DO:
-    RUN piValidUserAccount(INPUT ttUser.accountId, OUTPUT lRetorno).
-    CREATE ttRetorno.
-    ASSIGN ttRetorno.logUser = lRetorno.
-END.
 
-/*-- procedures --*/  
-{esp/essec008.i} 
+RUN piValidUserAccount(INPUT TABLE ttUserData).
+
+LOG-MANAGER:WRITE-MESSAGE(SUBSTITUTE(">>> VALOR DE RETURN-VALUE &1",RETURN-VALUE)) NO-ERROR.
+
+
+CREATE ttRetorno.
+ASSIGN ttRetorno.logUser = IF RETURN-VALUE = "OK":U THEN TRUE ELSE FALSE.
+
+
+
+PROCEDURE piValidUserAccount:
+/*---------------------------------------------------------------
+ Purpose: Checks if the user sent exists in the database
+---------------------------------------------------------------*/
+    DEFINE INPUT  PARAM TABLE FOR  ttUserData.
+
+
+    FIND FIRST ttUserData NO-LOCK NO-ERROR.
+    IF NOT AVAIL ttUserData THEN
+    DO:
+        RETURN "NOK":U.
+    END.
+    ELSE
+    DO:
+        /*******************************************
+          As validacoes foram separadas, por que 
+          o AppServer, estava dando falso positivo
+          de forma intermitente - CPAS
+        ********************************************/
+
+        IF ttUserData.accountId = "?"  OR
+           ttUserData.firstName = "?"  OR
+           ttUserData.email     = "?"  THEN
+            RETURN "NOK":U.
+
+
+        IF ttUserData.accountId = ""  OR
+           ttUserData.firstName = ""  OR
+           ttUserData.email     = ""  THEN
+            RETURN "NOK":U.
+
+
+        IF CAN-FIND(FIRST usuar_mestre WHERE usuar_mestre.cod_usuario = ttUserData.accountId NO-LOCK) THEN
+            RETURN "NOK":U.
+
+
+        RETURN "OK":U.
+    END.
+
+END PROCEDURE.
 
 
 
