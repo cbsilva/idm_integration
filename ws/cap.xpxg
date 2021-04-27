@@ -89,6 +89,11 @@
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
     </Procedure>
     <Procedure isPersistent="false" useFullName="false">
+      <Name>checkDeleteAccount</Name>
+      <ProcPath>esp\</ProcPath>
+      <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
+    </Procedure>
+    <Procedure isPersistent="false" useFullName="false">
       <Name>checkUpdateAccount</Name>
       <ProcPath>esp\</ProcPath>
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
@@ -99,7 +104,17 @@
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
     </Procedure>
     <Procedure isPersistent="false" useFullName="false">
+      <Name>deleteAccount</Name>
+      <ProcPath>esp\</ProcPath>
+      <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
+    </Procedure>
+    <Procedure isPersistent="false" useFullName="false">
       <Name>getUser</Name>
+      <ProcPath>esp\</ProcPath>
+      <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
+    </Procedure>
+    <Procedure isPersistent="false" useFullName="false">
+      <Name>UpdateAccount</Name>
       <ProcPath>esp\</ProcPath>
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
     </Procedure>
