@@ -11,24 +11,21 @@
 {include/i-prgvrs.i getUser 2.00.00.001}
 {METHOD/dbotterr.i}
 
-{include/getUser.i}
 {include/userData.i}
 {include/userRoles.i "'Roles'" "'RoleData'"}
 {include/ttResponse.i "'checkUpdateAccountResponse'"}
 
+
 /* global variable definitions */
 
 /* local variable definitions */
-DEFINE VARIABLE lRetOK AS LOGICAL     NO-UNDO.
-DEFINE VARIABLE lRetorno AS LOGICAL INITIAL FALSE NO-UNDO.
+DEFINE VARIABLE c-cod-grupo AS CHARACTER   NO-UNDO.
+DEFINE VARIABLE c-mensagem  AS CHARACTER   NO-UNDO.
+DEFINE VARIABLE i-position  AS INTEGER     NO-UNDO.
+DEFINE VARIABLE i-length    AS INTEGER     NO-UNDO.
+DEFINE VARIABLE c-inativo   AS CHARACTER   NO-UNDO.
 
 
-/*-- dataset definitions --*
-DEFINE DATASET dsUser 
-    NAMESPACE-URI "webservice.idm.bosch.com:types" 
-    XML-NODE-NAME "checkCreateAccount"
-    FOR ttUserData.
-*/
 
 DEFINE TEMP-TABLE ttUsuario NO-UNDO
     NAMESPACE-URI "webservice.idm.bosch.com:types"
@@ -39,9 +36,9 @@ DEFINE TEMP-TABLE ttUsuario NO-UNDO
 DEFINE DATASET dsUserData 
     NAMESPACE-URI "webservice.idm.bosch.com:types"
     XML-NODE-NAME "checkUpdateAccount" 
-    FOR ttUsuario, ttRoles, ttUserRoles
-    DATA-RELATION drRoles     FOR ttUsuario, ttRoles   RELATION-FIELDS(accountId, accountId) NESTED
-    DATA-RELATION drUserRoles FOR ttRoles, ttUserRoles RELATION-FIELDS(accountId, accountId) NESTED.
+    FOR ttUserUpdate, ttRoles, ttUserRoles
+    DATA-RELATION drRoles     FOR ttUserUpdate, ttRoles  RELATION-FIELDS(accountId, accountId) NESTED
+    DATA-RELATION drUserRoles FOR ttRoles, ttUserRoles   RELATION-FIELDS(accountId, accountId) NESTED.
 
 
 DEFINE DATASET dsRetorno
@@ -57,8 +54,7 @@ DEFINE INPUT  PARAMETER DATASET FOR dsUserData.
 DEFINE OUTPUT PARAMETER DATASET FOR dsRetorno.
 
 
-
-//RUN piUpdateAccount(INPUT accountId, INPUT TABLE ttUserRoles).
+RUN piValidUserAccount(INPUT TABLE ttUserUpdate, INPUT TABLE ttUserRoles).
 
 LOG-MANAGER:WRITE-MESSAGE(SUBSTITUTE(">>> VALOR DE RETURN-VALUE &1",RETURN-VALUE)) NO-ERROR.
 
@@ -72,38 +68,37 @@ PROCEDURE piValidUserAccount:
 /*---------------------------------------------------------------
  Purpose: Checks if the user sent exists in the database
 ---------------------------------------------------------------*/
-    DEFINE INPUT PARAM pUser AS CHARACTER NO-UNDO.
-    DEFINE INPUT  PARAM TABLE FOR  ttUserData.
+    DEFINE INPUT  PARAM TABLE FOR ttUserUpdate.
+    DEFINE INPUT  PARAM TABLE FOR ttUserRoles.
 
-
-    FIND FIRST ttUserData NO-LOCK NO-ERROR.
-    IF NOT AVAIL ttUserData THEN
+    FIND FIRST ttUserUpdate NO-LOCK NO-ERROR.
+    IF NOT AVAIL ttUserUpdate THEN
     DO:
         RETURN "NOK":U.
     END.
     ELSE
     DO:
-        /*******************************************
-          As validacoes foram separadas, por que 
-          o AppServer, estava dando falso positivo
-          de forma intermitente - CPAS
-        ********************************************/
-
-        IF ttUserData.accountId = "?"  OR
-           ttUserData.firstName = "?"  OR
-           ttUserData.email     = "?"  THEN
+        
+        IF NOT CAN-FIND(FIRST usuar_mestre WHERE usuar_mestre.cod_usuario = ttUserUpdate.accountId NO-LOCK) THEN
             RETURN "NOK":U.
 
 
-        IF ttUserData.accountId = ""  OR
-           ttUserData.firstName = ""  OR
-           ttUserData.email     = ""  THEN
-            RETURN "NOK":U.
+        FOR EACH ttUserRoles NO-LOCK:
 
-
-        IF CAN-FIND(FIRST usuar_mestre WHERE usuar_mestre.cod_usuario = ttUserData.accountId NO-LOCK) THEN
-            RETURN "NOK":U.
-
+            //verifica o tamanho do grupo enviado na integracao
+            ASSIGN i-length   = LENGTH(ttUserRoles.groupCode)
+                   i-position = i-length - 2.
+    
+            //pega os 3 ultimos caracteres do grupo
+            ASSIGN c-cod-grupo = SUBSTRING(ttUserRoles.groupCode,i-position,i-length, "CHAR").
+            
+            //verifica se o grupo existe no erp
+            IF NOT CAN-FIND(FIRST grp_usuar WHERE grp_usuar.cod_grp_usuar = c-cod-grupo NO-LOCK) THEN
+            DO:
+                LOG-MANAGER:WRITE-MESSAGE(SUBSTITUTE("O grupo &1 informando n∆o est† cadastrado",c-cod-grupo)) NO-ERROR.
+                RETURN "NOK":U.
+            END.
+        END.
 
         RETURN "OK":U.
     END.

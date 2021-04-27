@@ -11,7 +11,7 @@ DEFINE TEMP-TABLE ttCustomer NO-UNDO LIKE Customer.
 DEFINE TEMP-TABLE ttOrder    NO-UNDO LIKE Order. 
 DEFINE TEMP-TABLE ttInvoice  NO-UNDO LIKE Invoice.
 
-DEFINE DATASET DSET XML-NODE-NAME "getCustomer" SERIALIZE-HIDDEN FOR ttCustomer, ttOrder, ttInvoice   
+DEFINE DATASET DSET XML-NODE-NAME "getCustomer" FOR ttCustomer, ttOrder, ttInvoice   
  DATA-RELATION CustOrd FOR ttCustomer, ttOrder 
     RELATION-FIELDS(CustNum,CustNum) NESTED   
  DATA-RELATION OrdInv FOR ttOrder, ttInvoice 
@@ -27,7 +27,7 @@ DEFINE DATASET DSET XML-NODE-NAME "getCustomer" SERIALIZE-HIDDEN FOR ttCustomer,
  BUFFER ttOrder:HANDLE:ATTACH-DATA-SOURCE(DATA-SOURCE dsOrder:HANDLE).  
  BUFFER ttInvoice:HANDLE:ATTACH-DATA-SOURCE(DATA-SOURCE dsInvoice:HANDLE). 
 
- DATA-SOURCE dsCustomer:FILL-WHERE-STRING = "WHERE Customer.CustNum >= 2 and Customer.CustNum <= 3 ". 
+ DATA-SOURCE dsCustomer:FILL-WHERE-STRING = "WHERE Customer.CustNum > 3 ". 
  DATASET DSET:FILL(). 
  ASSIGN   
  cTargetType     = "file"   
