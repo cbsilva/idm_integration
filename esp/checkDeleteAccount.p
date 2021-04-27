@@ -27,7 +27,7 @@ DEFINE VARIABLE lRetorno AS LOGICAL INITIAL FALSE NO-UNDO.
 DEFINE DATASET dsUser 
     NAMESPACE-URI "webservice.idm.bosch.com:types" 
     XML-NODE-NAME "checkCreateAccount"
-    FOR ttUserData.
+    FOR ttUserUpdate.
 
 DEFINE DATASET dsRetorno
     NAMESPACE-URI "webservice.idm.bosch.com:types"
@@ -43,7 +43,7 @@ DEFINE OUTPUT PARAMETER DATASET FOR dsRetorno.
 
 
 
-RUN piValidUserAccount(INPUT TABLE ttUserData).
+RUN piValidUserAccount(INPUT TABLE ttUserUpdate).
 
 LOG-MANAGER:WRITE-MESSAGE(SUBSTITUTE(">>> VALOR DE RETURN-VALUE &1",RETURN-VALUE)) NO-ERROR.
 
@@ -57,11 +57,11 @@ PROCEDURE piValidUserAccount:
 /*---------------------------------------------------------------
  Purpose: Checks if the user sent exists in the database
 ---------------------------------------------------------------*/
-    DEFINE INPUT  PARAM TABLE FOR  ttUserData.
+    DEFINE INPUT  PARAM TABLE FOR  ttUserUpdate.
 
 
-    FIND FIRST ttUserData NO-LOCK NO-ERROR.
-    IF NOT AVAIL ttUserData THEN
+    FIND FIRST ttUserUpdate NO-LOCK NO-ERROR.
+    IF NOT AVAIL ttUserUpdate THEN
     DO:
         RETURN "NOK":U.
     END.
@@ -73,19 +73,15 @@ PROCEDURE piValidUserAccount:
           de forma intermitente - CPAS
         ********************************************/
 
-        IF ttUserData.accountId = "?"  OR
-           ttUserData.firstName = "?"  OR
-           ttUserData.email     = "?"  THEN
+        IF ttUserUpdate.accountId = "?"  THEN
             RETURN "NOK":U.
 
 
-        IF ttUserData.accountId = ""  OR
-           ttUserData.firstName = ""  OR
-           ttUserData.email     = ""  THEN
+        IF ttUserUpdate.accountId = ""  THEN
             RETURN "NOK":U.
 
 
-        IF CAN-FIND(FIRST usuar_mestre WHERE usuar_mestre.cod_usuario = ttUserData.accountId NO-LOCK) THEN
+        IF NOT CAN-FIND(FIRST usuar_mestre WHERE usuar_mestre.cod_usuario = ttUserUpdate.accountId NO-LOCK) THEN
             RETURN "NOK":U.
 
 

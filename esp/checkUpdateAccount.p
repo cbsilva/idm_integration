@@ -26,13 +26,6 @@ DEFINE VARIABLE i-length    AS INTEGER     NO-UNDO.
 DEFINE VARIABLE c-inativo   AS CHARACTER   NO-UNDO.
 
 
-
-DEFINE TEMP-TABLE ttUsuario NO-UNDO
-    NAMESPACE-URI "webservice.idm.bosch.com:types"
-    XML-NODE-NAME "UserData"
-    FIELD accountId AS CHAR.
-
-
 DEFINE DATASET dsUserData 
     NAMESPACE-URI "webservice.idm.bosch.com:types"
     XML-NODE-NAME "checkUpdateAccount" 
