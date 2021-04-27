@@ -11,9 +11,8 @@
 {include/i-prgvrs.i disableAccount 2.00.00.001}
 {METHOD/dbotterr.i}
 
-{include/getUser.i}
-{include/userData.i}
-{include/userRoles.i "''" "''"}
+{include/ttUpdateData.i}
+{include/ttGenerics.i}
 {include/ttResponse.i "'enableAccountResponse'"}
 
 /* global variable definitions */

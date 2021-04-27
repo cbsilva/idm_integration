@@ -15,8 +15,9 @@ DEFINE TEMP-TABLE ttUserData NO-UNDO
 
 
 
-DEFINE TEMP-TABLE ttUserUpdate NO-UNDO 
-    NAMESPACE-URI "webservice.idm.bosch.com:types"
-    XML-NODE-NAME "UserData"
-    FIELD accountId  AS CHARACTER FORMAT "x(12)"
-    INDEX idxUser IS PRIMARY accountId.
+/* DEFINE TEMP-TABLE ttUserUpdate NO-UNDO              */
+/*     NAMESPACE-URI "webservice.idm.bosch.com:types"  */
+/*     XML-NODE-NAME "UserData"                        */
+/*     FIELD accountId  AS CHARACTER FORMAT "x(12)"    */
+/*     INDEX idxUser IS PRIMARY accountId.             */
+/*                                                     */

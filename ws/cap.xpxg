@@ -84,37 +84,56 @@
     <IsTTResultSet>false</IsTTResultSet>
     <WriteDatasetBeforeImage>false</WriteDatasetBeforeImage>
     <Procedure isPersistent="false" useFullName="false">
-      <Name>checkCreateAccount</Name>
+      <Name>essec0008a</Name>
+      <ProcPath>esp\</ProcPath>
+      <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
+      <ProcExt>p</ProcExt>
+    </Procedure>
+    <Procedure isPersistent="false" useFullName="false">
+      <Name>essec0008b</Name>
+      <ProcPath>esp\</ProcPath>
+      <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
+      <ProcExt>p</ProcExt>
+    </Procedure>
+    <Procedure isPersistent="false" useFullName="false">
+      <Name>essec0008c</Name>
       <ProcPath>esp\</ProcPath>
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
     </Procedure>
     <Procedure isPersistent="false" useFullName="false">
-      <Name>checkDeleteAccount</Name>
+      <Name>essec0008d</Name>
+      <ProcPath>esp\</ProcPath>
+      <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
+      <ProcExt>p</ProcExt>
+    </Procedure>
+    <Procedure isPersistent="false" useFullName="false">
+      <Name>essec0008e</Name>
       <ProcPath>esp\</ProcPath>
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
     </Procedure>
     <Procedure isPersistent="false" useFullName="false">
-      <Name>checkUpdateAccount</Name>
+      <Name>essec0008f</Name>
+      <ProcPath>esp\</ProcPath>
+      <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
+      <ProcExt>p</ProcExt>
+    </Procedure>
+    <Procedure isPersistent="false" useFullName="false">
+      <Name>essec0008g</Name>
       <ProcPath>esp\</ProcPath>
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
     </Procedure>
     <Procedure isPersistent="false" useFullName="false">
-      <Name>createAccount</Name>
+      <Name>essec0008h</Name>
       <ProcPath>esp\</ProcPath>
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
     </Procedure>
     <Procedure isPersistent="false" useFullName="false">
-      <Name>deleteAccount</Name>
+      <Name>essec0008i</Name>
       <ProcPath>esp\</ProcPath>
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
     </Procedure>
     <Procedure isPersistent="false" useFullName="false">
-      <Name>getUser</Name>
-      <ProcPath>esp\</ProcPath>
-      <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
-    </Procedure>
-    <Procedure isPersistent="false" useFullName="false">
-      <Name>UpdateAccount</Name>
+      <Name>essec0008j</Name>
       <ProcPath>esp\</ProcPath>
       <ProPath>D:\totvs\datasul\dts12\ERP\custom\bosch\</ProPath>
     </Procedure>

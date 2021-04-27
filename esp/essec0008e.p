@@ -8,13 +8,12 @@
  
  /* ***************************  Definitions  ************************** */
  
-{include/i-prgvrs.i getUser 2.00.00.001}
+{include/i-prgvrs.i essec0008e 2.00.00.001}
 {METHOD/dbotterr.i}
 
-{include/getUser.i}
-{include/userData.i}
-{include/userRoles.i "''" "''"}
-{include/ttResponse.i "'checkDeleteAccountResponse'"}
+{include/ttUpdateData.i}
+{include/ttGenerics.i}
+{include/ttResponse.i "'deleteAccountResponse'"}
 
 /* global variable definitions */
 
@@ -33,21 +32,21 @@ DEFINE BUFFER b_usuar_grp_usuar FOR usuar_grp_usuar.
 
 
 /*-- dataset definitions --*/
-DEFINE DATASET dsUser 
+DEFINE DATASET dsDeleteUser 
     NAMESPACE-URI "webservice.idm.bosch.com:types" 
-    XML-NODE-NAME "checkDeleteAccount"
+    XML-NODE-NAME "deleteAccount"
     FOR ttUserUpdate.
 
 DEFINE DATASET dsRetorno
     NAMESPACE-URI "webservice.idm.bosch.com:types"
-    XML-NODE-NAME "checkDeleteAccountResponse"
+    XML-NODE-NAME "deleteAccountResponse"
     XML-NODE-TYPE "HIDDEN"
     SERIALIZE-HIDDEN
     FOR ttRetorno.                                
 
 
 /* ***************************  Main Block  ************************** */
-DEFINE INPUT  PARAMETER DATASET FOR dsUser.
+DEFINE INPUT  PARAMETER DATASET FOR dsDeleteUser.
 DEFINE OUTPUT PARAMETER DATASET FOR dsRetorno.
 
 

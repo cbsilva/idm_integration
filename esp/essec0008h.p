@@ -10,10 +10,10 @@
  
 {include/i-prgvrs.i getUser 2.00.00.001}
 {METHOD/dbotterr.i}
-
-{include/getUser.i}
-{include/userData.i}
-{include/userRoles.i "'Roles'" "'Role'"}
+{include/ttGetUser.i}
+{include/ttUserData.i}
+{include/ttGenerics.i}
+{include/ttRoles.i "'Roles'" "'Role'"}
 
 /* global variable definitions */
 

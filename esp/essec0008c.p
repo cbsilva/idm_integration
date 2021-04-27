@@ -8,11 +8,11 @@
  
  /* ***************************  Definitions  ************************** */
  
-{include/i-prgvrs.i getUser 2.00.00.001}
+{include/i-prgvrs.i checkUpdateAccount 2.00.00.001}
 {METHOD/dbotterr.i}
 
-{include/userData.i}
-{include/userRoles.i "'Roles'" "'RoleData'"}
+{include/ttUpdateData.i}
+{include/ttRoles.i "'Roles'" "'RoleData'"}
 {include/ttResponse.i "'checkUpdateAccountResponse'"}
 
 

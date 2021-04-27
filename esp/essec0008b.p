@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------
-    File        : checkCreateAccount.p
+    File        : checkDeleteAccount.p
     Description : Programa para checar as informa‡äes do usuario
     Author(s)   : Cleberson Silva - 4Make
     Created     : 21/04/2021
@@ -8,13 +8,11 @@
  
  /* ***************************  Definitions  ************************** */
  
-{include/i-prgvrs.i getUser 2.00.00.001}
+{include/i-prgvrs.i checkDeleteAccount 2.00.00.001}
 {METHOD/dbotterr.i}
 
-{include/getUser.i}
-{include/userData.i}
-{include/userRoles.i "''" "''"}
-{include/ttResponse.i "'checkCreateAccountResponse'"}
+{include/ttGetUser.i}
+{include/ttResponse.i "'checkDeleteAccountResponse'"}
 
 /* global variable definitions */
 
@@ -24,26 +22,26 @@ DEFINE VARIABLE lRetorno AS LOGICAL INITIAL FALSE NO-UNDO.
 
 
 /*-- dataset definitions --*/
-DEFINE DATASET dsUser 
+DEFINE DATASET dsDeleteUser 
     NAMESPACE-URI "webservice.idm.bosch.com:types" 
-    XML-NODE-NAME "checkCreateAccount"
-    FOR ttUserUpdate.
+    XML-NODE-NAME "checkDeleteAccount"
+    FOR ttUser.
 
 DEFINE DATASET dsRetorno
     NAMESPACE-URI "webservice.idm.bosch.com:types"
-    XML-NODE-NAME "checkCreateAccountResponse"
+    XML-NODE-NAME "checkDeleteAccountResponse"
     XML-NODE-TYPE "HIDDEN"
     SERIALIZE-HIDDEN
     FOR ttRetorno.                                
 
 
 /* ***************************  Main Block  ************************** */
-DEFINE INPUT  PARAMETER DATASET FOR dsUser.
+DEFINE INPUT  PARAMETER DATASET FOR dsDeleteUser.
 DEFINE OUTPUT PARAMETER DATASET FOR dsRetorno.
 
 
 
-RUN piValidUserAccount(INPUT TABLE ttUserUpdate).
+RUN piValidUserAccount(INPUT TABLE ttUser).
 
 LOG-MANAGER:WRITE-MESSAGE(SUBSTITUTE(">>> VALOR DE RETURN-VALUE &1",RETURN-VALUE)) NO-ERROR.
 
@@ -57,11 +55,11 @@ PROCEDURE piValidUserAccount:
 /*---------------------------------------------------------------
  Purpose: Checks if the user sent exists in the database
 ---------------------------------------------------------------*/
-    DEFINE INPUT  PARAM TABLE FOR  ttUserUpdate.
+    DEFINE INPUT  PARAM TABLE FOR  ttUser.
 
 
-    FIND FIRST ttUserUpdate NO-LOCK NO-ERROR.
-    IF NOT AVAIL ttUserUpdate THEN
+    FIND FIRST ttUser NO-LOCK NO-ERROR.
+    IF NOT AVAIL ttUser THEN
     DO:
         RETURN "NOK":U.
     END.
@@ -73,15 +71,15 @@ PROCEDURE piValidUserAccount:
           de forma intermitente - CPAS
         ********************************************/
 
-        IF ttUserUpdate.accountId = "?"  THEN
+        IF ttUser.accountId = "?"  THEN
             RETURN "NOK":U.
 
 
-        IF ttUserUpdate.accountId = ""  THEN
+        IF ttUser.accountId = ""  THEN
             RETURN "NOK":U.
 
 
-        IF NOT CAN-FIND(FIRST usuar_mestre WHERE usuar_mestre.cod_usuario = ttUserUpdate.accountId NO-LOCK) THEN
+        IF NOT CAN-FIND(FIRST usuar_mestre WHERE usuar_mestre.cod_usuario = ttUser.accountId NO-LOCK) THEN
             RETURN "NOK":U.
 
 

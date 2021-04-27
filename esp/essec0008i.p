@@ -11,9 +11,7 @@
 {include/i-prgvrs.i getUser 2.00.00.001}
 {METHOD/dbotterr.i}
 
-{include/getUser.i}
-{include/userData.i}
-{include/userRoles.i "''" "''"}
+{include/ttUpdateData.i}
 {include/ttResponse.i "'supportsAccountDisableResponse'"}
 
 /* global variable definitions */
@@ -24,9 +22,9 @@ DEFINE VARIABLE lRetorno AS LOGICAL INITIAL FALSE NO-UNDO.
 
 
 /*-- dataset definitions --*/
-DEFINE DATASET dsUser 
+DEFINE DATASET dsSupportUser 
     NAMESPACE-URI "webservice.idm.bosch.com:types" 
-    XML-NODE-NAME "supportsAccountDisable/>"
+    XML-NODE-NAME "supportsAccountDisable"
     FOR ttUserUpdate.
 
 DEFINE DATASET dsRetorno
@@ -38,7 +36,7 @@ DEFINE DATASET dsRetorno
 
 
 /* ***************************  Main Block  ************************** */
-DEFINE INPUT  PARAMETER DATASET FOR dsUser.
+DEFINE INPUT  PARAMETER DATASET FOR dsSupportUser.
 DEFINE OUTPUT PARAMETER DATASET FOR dsRetorno.
 
 

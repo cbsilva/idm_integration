@@ -11,9 +11,7 @@
 {include/i-prgvrs.i getUser 2.00.00.001}
 {METHOD/dbotterr.i}
 
-{include/getUser.i}
-{include/userData.i}
-{include/userRoles.i "''" "''"}
+{include/ttUserData.i}
 {include/ttResponse.i "'checkCreateAccountResponse'"}
 
 /* global variable definitions */
@@ -24,7 +22,7 @@ DEFINE VARIABLE lRetorno AS LOGICAL INITIAL FALSE NO-UNDO.
 
 
 /*-- dataset definitions --*/
-DEFINE DATASET dsUser 
+DEFINE DATASET dsCreateUser 
     NAMESPACE-URI "webservice.idm.bosch.com:types" 
     XML-NODE-NAME "checkCreateAccount"
     FOR ttUserData.
@@ -38,7 +36,7 @@ DEFINE DATASET dsRetorno
 
 
 /* ***************************  Main Block  ************************** */
-DEFINE INPUT  PARAMETER DATASET FOR dsUser.
+DEFINE INPUT  PARAMETER DATASET FOR dsCreateUser.
 DEFINE OUTPUT PARAMETER DATASET FOR dsRetorno.
 
 
